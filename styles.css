@@ -1,0 +1,79 @@
+/* Base styles with a dynamic sun and moon theme */
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding-top: 50px;
+  transition: background 0.5s ease-in-out;
+  background: linear-gradient(135deg, #2e549b, #2a5298);
+}
+
+/* Light (Sun) Theme */
+body.sun-theme {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: #333;
+}
+
+/* Dark (Moon) Theme */
+body.moon-theme {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+}
+
+.indian-title {
+  font-family: 'Georgia', serif;
+  color: #ff6f61;
+  margin-bottom: 30px;
+}
+
+/* Weather info container with modern card design */
+.weather-info {
+  margin-top: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 238, 221, 0.9));
+  border-radius: 15px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease-in-out;
+}
+
+body.moon-theme .weather-info {
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(26, 44, 65, 0.9));
+}
+
+/* Input field customization */
+input.form-control {
+  border-radius: 30px;
+  padding: 10px 20px;
+  width: 300px;
+  background: linear-gradient(135deg, #fff1eb, #ace0f9);
+  border: none;
+}
+
+/* Button customization */
+button.btn {
+  border-radius: 30px;
+  padding: 10px 30px;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  border: none;
+  color: white;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  margin: 20px 0;
+}
+
+/* Footer */
+.footer {
+  margin-top: 30px;
+  padding: 10px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+  text-align: center;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  input.form-control {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+}

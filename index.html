@@ -1,139 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="weatherApp">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            transition: background 0.5s ease-in-out;
-        }
-        .container {
-            max-width: 400px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        input {
-            width: 80%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 25px;
-            outline: none;
-            text-align: center;
-            font-size: 16px;
-        }
-        button {
-            padding: 12px 20px;
-            border: none;
-            background: #ff7eb3;
-            color: white;
-            font-size: 16px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        button:hover {
-            background: #ff4d94;
-        }
-        #weather {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-        .weather-info {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        .weather-icon {
-            font-size: 50px;
-            margin: 10px 0;
-        }
-        footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Indian Weather App</title>
+  <!-- Bootstrap CSS for responsive design -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- Animate.css for extra animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- AngularJS & Angular Animate -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.js"></script>
 </head>
-<body id="theme">
-    <div class="container">
-        <h2>Weather App</h2>
-        <input type="text" id="city" placeholder="Enter city name">
-        <button onclick="getWeather()">Get Weather</button>
-        <div id="weather"></div>
-    </div>
-    <footer>
-        Developed by Sanket Kava
-    </footer>
+<body ng-controller="WeatherController">
+  <div class="container">
+    <h1 class="text-center indian-title animate__animated animate__fadeInDown">Indian Weather App</h1>
+    <form ng-submit="getWeather()" class="form-inline text-center">
+      <div class="form-group">
+        <input type="text" class="form-control input-lg" ng-model="city" placeholder="Enter an Indian city (e.g., Mumbai, Delhi)" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">Get Weather</button>
+    </form>
     
-    <script>
-        async function getWeather() {
-            const apiKey = '9e6f33248b12e0c86358310bd6b2391f';
-            const city = document.getElementById('city').value;
-            if (!city) {
-                alert('Please enter a city name');
-                return;
-            }
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                if (data.cod === 200) {
-                    let weatherIcon = '';
-                    let background = '';
-                    let theme = document.getElementById('theme');
-                    
-                    if (data.weather[0].main.toLowerCase().includes("clear")) {
-                        weatherIcon = '☀️';
-                        background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-                    } else if (data.weather[0].main.toLowerCase().includes("cloud")) {
-                        weatherIcon = '☁️';
-                        background = 'linear-gradient(135deg, #A9A9A9, #708090)';
-                    } else if (data.weather[0].main.toLowerCase().includes("rain")) {
-                        weatherIcon = '🌧️';
-                        background = 'linear-gradient(135deg, #2C3E50, #4CA1AF)';
-                    } else if (data.weather[0].main.toLowerCase().includes("snow")) {
-                        weatherIcon = '❄️';
-                        background = 'linear-gradient(135deg, #E6E6FA, #B0C4DE)';
-                    } else {
-                        weatherIcon = '🌙';
-                        background = 'linear-gradient(135deg, #1a1a2e, #16213e)';
-                    }
-                    
-                    theme.style.background = background;
-                    document.getElementById('weather').innerHTML = `
-                        <div class="weather-info">
-                            <h3>${data.name}, ${data.sys.country}</h3>
-                            <p class="weather-icon">${weatherIcon}</p>
-                            <p>Temperature: <strong>${data.main.temp}°C</strong></p>
-                            <p>Weather: <strong>${data.weather[0].description}</strong></p>
-                        </div>
-                    `;
-                } else {
-                    document.getElementById('weather').innerHTML = '<p>City not found. Please try again.</p>';
-                }
-            } catch (error) {
-                console.error(error);
-                document.getElementById('weather').innerHTML = '<p>Error fetching weather data.</p>';
-            }
-        }
-    </script>
+    <!-- Display Weather Data with Angular Animation -->
+    <div class="weather-info animate__animated" 
+         ng-if="weather" 
+         ng-class="{'animate__fadeInUp': weather, 'animate__fadeOutDown': !weather}">
+      <h2>Weather for {{ weather.name }}</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Temperature:</strong> {{ weather.main.temp }} °C</p>
+          <p><strong>Humidity:</strong> {{ weather.main.humidity }}%</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Wind Speed:</strong> {{ weather.wind.speed }} m/s</p>
+          <p><strong>Condition:</strong> {{ weather.weather[0].description | uppercase }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Error Message with Animation -->
+    <div ng-if="errorMessage" class="alert alert-danger animate__animated animate__shakeX">
+      {{ errorMessage }}
+    </div>
+  </div>
+  
+  <!-- App Scripts -->
+  <script src="app.js"></script>
+  <script src="weatherService.js"></script>
 </body>
 </html>
